@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  */
 
-namespace Ldrago\combatlogger;
+namespace jacknoordhuis\combatlogger;
 
 use pocketmine\command\Command;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
@@ -24,11 +24,7 @@ use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerCommandPreprocessEvent;
 use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\player\PlayerQuitEvent;
-use pocketmine\player\Player;
-use function explode;
-use function in_array;
-use function substr;
-use function trim;
+use pocketmine\Player;
 
 class EventListener implements Listener {
 
@@ -66,7 +62,7 @@ class EventListener implements Listener {
 	 *
 	 * @ignoreCancelled true
 	 */
-	public function onDamage(EntityDamageEvent $event): void{
+	public function onDamage(EntityDamageEvent $event) {
 		if($event instanceof EntityDamageByEntityEvent) {
 			$victim = $event->getEntity();
 			$attacker = $event->getDamager();
@@ -84,7 +80,7 @@ class EventListener implements Listener {
 	/**
 	 * @param PlayerDeathEvent $event
 	 */
-	public function onDeath(PlayerDeathEvent $event): void{
+	public function onDeath(PlayerDeathEvent $event) {
 		$player = $event->getPlayer();
 		if($this->plugin->isTagged($player)) {
 			$this->plugin->setTagged($player, false);
@@ -99,10 +95,17 @@ class EventListener implements Listener {
 	 * @ignoreCancelled true
 	 */
 	public function onCommandPreProcess(PlayerCommandPreprocessEvent $event) {
-		$player = $event->getplayer();
-	
-			
-	
+		$player = $event->getPlayer();
+		if($this->plugin->isTagged($player)) {
+			$message = $event->getMessage();
+			if(strpos($message, "/") === 0) {
+				$args = array_map("stripslashes", str_getcsv(substr($message, 1), " "));
+				$label = "";
+				$target = $this->plugin->getServer()->getCommandMap()->matchCommand($label, $args);
+				if($target instanceof Command and in_array(strtolower($label), $this->bannedCommands)) {
+					$event->setCancelled();
+					$player->sendMessage($this->plugin->getMessageManager()->getMessage("player-run-banned-command"));
+				}
 			}
 		}
 	}
