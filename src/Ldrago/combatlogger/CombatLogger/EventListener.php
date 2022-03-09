@@ -66,7 +66,7 @@ class EventListener implements Listener {
 	 *
 	 * @ignoreCancelled true
 	 */
-	public function onDamage(EntityDamageEvent $event) {
+	public function onDamage(EntityDamageEvent $event): void{
 		if($event instanceof EntityDamageByEntityEvent) {
 			$victim = $event->getEntity();
 			$attacker = $event->getDamager();
@@ -84,7 +84,7 @@ class EventListener implements Listener {
 	/**
 	 * @param PlayerDeathEvent $event
 	 */
-	public function onDeath(PlayerDeathEvent $event) {
+	public function onDeath(PlayerDeathEvent $event): void{
 		$player = $event->getPlayer();
 		if($this->plugin->isTagged($player)) {
 			$this->plugin->setTagged($player, false);
@@ -99,17 +99,10 @@ class EventListener implements Listener {
 	 * @ignoreCancelled true
 	 */
 	public function onCommandPreProcess(PlayerCommandPreprocessEvent $event) {
-		$player = $event->getPlayer();
-		if($this->plugin->isTagged($player)) {
-			$message = $event->getMessage();
-			if(strpos($message, "/") === 0) {
-				$args = array_map("stripslashes", str_getcsv(substr($message, 1), " "));
-				$label = "";
-				$target = $this->plugin->getServer()->getCommandMap()->matchCommand($label, $args);
-				if($target instanceof Command and in_array(strtolower($label), $this->bannedCommands)) {
-					$event->setCancelled();
-					$player->sendMessage($this->plugin->getMessageManager()->getMessage("player-run-banned-command"));
-				}
+		$player = $event->getplayer();
+	
+			
+	
 			}
 		}
 	}
