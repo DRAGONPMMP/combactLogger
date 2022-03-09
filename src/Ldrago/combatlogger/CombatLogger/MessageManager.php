@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  */
 
-namespace jacknoordhuis\combatlogger;
+namespace Ldrago\combatlogger;
 
 use pocketmine\utils\TextFormat as TF;
 use pocketmine\utils\TextFormat;
