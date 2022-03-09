@@ -24,7 +24,11 @@ use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerCommandPreprocessEvent;
 use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\player\PlayerQuitEvent;
-use pocketmine\Player;
+use pocketmine\player\Player;
+use function explode;
+use function in_array;
+use function substr;
+use function trim;
 
 class EventListener implements Listener {
 
