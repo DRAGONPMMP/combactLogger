@@ -1,0 +1,9 @@
+name: CombatLogger 
+description: plugin that allows you to punish combact loggers!
+authors: [JackNordhuis,Updated by ItzLdragoMc]
+main: Ldrago\combatlogger\CombatLogger
+version: 1.0.0 
+api: [4.0.0 , 4.2.0]
+
+
+
